@@ -163,8 +163,11 @@ class UserModelController extends Controller
         $storage = Storage::disk('public');
 
         // Iamge delete
-        if ($storage->exists($user->image)) {
-            $storage->delete($user->image);
+        if ($storage->exists($user->profileImage)) {
+            $storage->delete($user->profileImage);
+        }
+        if ($storage->exists($user->bannerImage)) {
+            $storage->delete($user->bannerImage);
         }
 
         // Delete Product
@@ -172,7 +175,7 @@ class UserModelController extends Controller
 
         // Return Json Response
         return response()->json([
-            'message' => "Product successfully deleted."
+            'message' => "User successfully deleted."
         ], 200);
     }
 }
