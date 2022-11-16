@@ -24,44 +24,47 @@ class UserModelController extends Controller
     public function store(UserModelStoreRequest $request)
     {
         try {
-            $profileImageName = null;
-            $bannerImageName = null;
+            $profileImageName = '';
+            $bannerImageName = '';
+
             if ($request->hasFile('profileImage')) {
                 $profileImageName = Str::random(32) . "." . $request->profileImage->getClientOriginalExtension();
             }
             if ($request->hasFile('bannerImage')) {
-                $bannerImageName = Str::random(32) . "." . $request->bannerImage->getClientOriginalExtension();
+                $bannerImageName =  Str::random(32) . "." . $request->bannerImage->getClientOriginalExtension();
             }
-
-
+            // return $profileImageName;
             // Create =UserModle
+
             UserModel::create([
-                'username' => $request->name,
+                'username' => $request->username,
                 'email' => $request->email,
                 'walletAddress' => $request->walletAddress,
                 'profileImage' => $profileImageName,
                 'bannerImage' => $bannerImageName,
-                'description' => $request->description
             ]);
+
             // Save Image in Storage folder
-            if ($profileImageName != null) {
+            if ($profileImageName !== '') {
                 Storage::disk('public')->put($profileImageName, file_get_contents($request->profileImage));
             }
-            if ($bannerImageName != null) {
+            if ($bannerImageName !== '') {
                 Storage::disk('public')->put($bannerImageName, file_get_contents($request->bannerImage));
             }
-
 
             // Return Json Response
             return response()->json([
                 'message' => "User Created chief"
             ], 200);
+
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Victor! Something has Gone Wrong Fam"
             ], 500);
         }
+
+        return 'success';
     }
 
     public function show($id)

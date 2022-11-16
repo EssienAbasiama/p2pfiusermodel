@@ -11,7 +11,7 @@ class UserModel extends Model
 
     protected $fillable = [
         'username',
-        'emai',
+        'email',
         'walletAddress',
         'profileImage',
         'bannerImage'
