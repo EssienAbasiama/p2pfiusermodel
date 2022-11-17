@@ -24,15 +24,15 @@ class UserModelController extends Controller
     public function store(UserModelStoreRequest $request)
     {
         try {
-            $profileImageName = '';
-            $bannerImageName = '';
+            // $profileImageName = '';
+            // $bannerImageName = '';
 
-            if ($request->hasFile('profileImage')) {
-                $profileImageName = Str::random(32) . "." . $request->profileImage->getClientOriginalExtension();
-            }
-            if ($request->hasFile('bannerImage')) {
-                $bannerImageName =  Str::random(32) . "." . $request->bannerImage->getClientOriginalExtension();
-            }
+            // if ($request->hasFile('profileImage')) {
+            //     $profileImageName = Str::random(32) . "." . $request->profileImage->getClientOriginalExtension();
+            // }
+            // if ($request->hasFile('bannerImage')) {
+            //     $bannerImageName =  Str::random(32) . "." . $request->bannerImage->getClientOriginalExtension();
+            // }
             // return $profileImageName;
             // Create =UserModle
 
@@ -40,17 +40,17 @@ class UserModelController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'walletAddress' => $request->walletAddress,
-                'profileImage' => $profileImageName,
-                'bannerImage' => $bannerImageName,
+                'profileImage' => $request->profileImage,
+                'bannerImage' => $request->bannerImage,
             ]);
 
             // Save Image in Storage folder
-            if ($profileImageName !== '') {
-                Storage::disk('public')->put($profileImageName, file_get_contents($request->profileImage));
-            }
-            if ($bannerImageName !== '') {
-                Storage::disk('public')->put($bannerImageName, file_get_contents($request->bannerImage));
-            }
+            // if ($profileImageName !== '') {
+            //     Storage::disk('public')->put($profileImageName, file_get_contents($request->profileImage));
+            // }
+            // if ($bannerImageName !== '') {
+            //     Storage::disk('public')->put($bannerImageName, file_get_contents($request->bannerImage));
+            // }
 
             // Return Json Response
             return response()->json([
@@ -85,12 +85,19 @@ class UserModelController extends Controller
 
     public function update(Request $request, $id)
     {
+        // $request->validate([
+        //     'username' => 'required|string',
+        //     'email' => 'required|string',
+        //     'walletAddress' => 'required|string',
+        //     'profileImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        //     'bannerImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
         $request->validate([
             'username' => 'required|string',
             'email' => 'required|string',
             'walletAddress' => 'required|string',
-            'profileImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'bannerImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'profileImage' => 'required|string',
+            'bannerImage' => 'required|string',
         ]);
         try {
             // Find product
@@ -103,39 +110,40 @@ class UserModelController extends Controller
 
             $user->username = $request->username;
             $user->email = $request->email;
+            $user->profileImage = $request->profileImage;
+            $user->bannerImage = $request->bannerImage;
+            // if ($request->profileImage) {
+            //     // Public storage
+            //     $storage = Storage::disk('public');
 
-            if ($request->profileImage) {
-                // Public storage
-                $storage = Storage::disk('public');
+            //     // Old iamge delete
+            //     if ($storage->exists($user->profileImage)) {
+            //         $storage->delete($user->profileImage);
+            //     }
 
-                // Old iamge delete
-                if ($storage->exists($user->profileImage)) {
-                    $storage->delete($user->profileImage);
-                }
+            //     // Image name
+            //     $profileImageName = Str::random(32) . "." . $request->profileImage->getClientOriginalExtension();
+            //     $user->profileImage = $profileImageName;
 
-                // Image name
-                $profileImageName = Str::random(32) . "." . $request->profileImage->getClientOriginalExtension();
-                $user->profileImage = $profileImageName;
+            //     // Image save in public folder
+            //     $storage->put($profileImageName, file_get_contents($request->profileImage));
+            // }
 
-                // Image save in public folder
-                $storage->put($profileImageName, file_get_contents($request->profileImage));
-            }
+            // if ($request->bannerImage) {
+            //     // Public storage
+            //     $storage = Storage::disk('public');
 
-            if ($request->bannerImage) {
-                // Public storage
-                $storage = Storage::disk('public');
+            //     // Old iamge delete
+            //     if ($storage->exists($user->bannerImage)) {
+            //         $storage->delete($user->bannerImage);
+            //     }
+            //     // Image name
+            //     $bannerImageName = Str::random(32) . "." . $request->bannerImage->getClientOriginalExtension();
+            //     $user->bannerImage = $bannerImageName;
 
-                // Old iamge delete
-                if ($storage->exists($user->bannerImage)) {
-                    $storage->delete($user->bannerImage);
-                }
-                // Image name
-                $bannerImageName = Str::random(32) . "." . $request->bannerImage->getClientOriginalExtension();
-                $user->bannerImage = $bannerImageName;
-
-                // Image save in public folder
-                $storage->put($bannerImageName, file_get_contents($request->bannerImage));
-            }
+            //     // Image save in public folder
+            //     $storage->put($bannerImageName, file_get_contents($request->bannerImage));
+            // }
 
             // Update Product
             $user->save();
