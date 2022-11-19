@@ -14,6 +14,16 @@ class UserModel extends Model
         'email',
         'walletAddress',
         'profileImage',
-        'bannerImage'
+        'bannerImage',
+        'bankName1',
+        'accountNumber1',
+        'accountName1',
+        'bankName2',
+        'accountNumber2',
+        'accountName2',
+        'bankName3',
+        'accountNumber3',
+        'accountName3',
+        'twitterURL'
     ];
 }

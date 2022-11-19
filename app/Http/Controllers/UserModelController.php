@@ -42,6 +42,26 @@ class UserModelController extends Controller
                 'walletAddress' => $request->walletAddress,
                 'profileImage' => $request->profileImage,
                 'bannerImage' => $request->bannerImage,
+                'bankName1' => $request->bankName1,
+                 'accountNumber1' => $request->accountNumber1,
+                 'accountName1' => $request->accountName1,
+                 'bankName2' => $request->bankName2,
+                 'accountNumber2' => $request->accountNumber2,
+                 'accountName2' => $request->accountName2,
+                 'bankName3' => $request->bankName3,
+                 'accountNumber3' => $request->accountNumber3,
+                 'accountName3' => $request->accountName3,
+                 'twitterURL' => $request->twitterURL
+                // 'bankName1' => '',
+                // 'accountNumber1' => '',
+                // 'accountName1' => '',
+                // 'bankName2' => '',
+                // 'accountNumber2' => '',
+                // 'accountName2' => '',
+                // 'bankName3' => '',
+                // 'accountNumber3' => '',
+                // 'accountName3' => '',
+                // 'twitterURL' => ''
             ]);
 
             // Save Image in Storage folder
@@ -67,10 +87,10 @@ class UserModelController extends Controller
         return 'success';
     }
 
-    public function show($id)
+    public function show($walletAddress)
     {
         // Product Detail
-        $user = UserModel::find($id);
+        $user = UserModel::find($walletAddress);
         if (!$user) {
             return response()->json([
                 'message' => 'User Not Found.'
@@ -112,6 +132,17 @@ class UserModelController extends Controller
             $user->email = $request->email;
             $user->profileImage = $request->profileImage;
             $user->bannerImage = $request->bannerImage;
+            $user->bankName1 = $request->bankName1;
+            $user->accountNumber1 = $request->accountNumber1;
+            $user->accountName1 = $request->accountName1;
+            $user->bankName2 = $request->bankName2;
+            $user->accountNumber2 = $request->accountNumber2;
+            $user->accountName2 = $request->accountName2;
+            $user->bankName3 = $request->bankName3;
+            $user->accountNumber3 = $request->accountNumber3;
+            $user->accountName3 = $request->accountName3;
+            $user->twitterURL = $request->twitterURL;
+
             // if ($request->profileImage) {
             //     // Public storage
             //     $storage = Storage::disk('public');
@@ -188,5 +219,16 @@ class UserModelController extends Controller
         return response()->json([
             'message' => "User successfully deleted."
         ], 200);
+    }
+
+    /**
+     * Search for WalletAddress
+     *
+     * @param  str  $walletAddress
+     * @return \Illuminate\Http\Response
+     */
+    public function search($walletAddress)
+    {
+        return UserModel::where('walletAddress', 'like', '%'.$walletAddress.'%')->get();
     }
 }

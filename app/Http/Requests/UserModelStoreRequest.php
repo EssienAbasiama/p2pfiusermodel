@@ -37,6 +37,7 @@ class UserModelStoreRequest extends FormRequest
                 'walletAddress' => 'required|string|unique:user_models,walletAddress',
                 'profileImage' => 'required|string|max:258',
                 'bannerImage' => 'required|string|max:258',
+
             ];
         } else {
             // return [

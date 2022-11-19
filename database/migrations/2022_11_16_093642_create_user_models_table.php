@@ -20,6 +20,16 @@ class CreateUserModelsTable extends Migration
             $table->string('walletAddress');
             $table->text('profileImage');
             $table->text('bannerImage');
+            $table-> string('bankName1')->nullable();
+            $table->string('accountNumber1')->nullable();
+            $table->string('accountName1')->nullable();
+            $table->string('bankName2')->nullable();
+            $table->string('accountNumber2')->nullable();
+            $table->string('accountName2')->nullable();
+            $table->string('bankName3')->nullable();
+            $table->string('accountNumber3')->nullable();
+            $table->string('accountName3')->nullable();
+            $table->text('twitterURL')->nullable();
             $table->timestamps();
         });
     }

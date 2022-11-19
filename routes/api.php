@@ -24,3 +24,4 @@ Route::get('users/{id}', [UserModelController::class, 'show']);
 Route::post('user', [UserModelController::class, 'store']);
 Route::post('users/{id}', [UserModelController::class, 'update']);
 Route::delete('users/{id}', [UserModelController::class, 'destroy']);
+Route::get('/users/search/{walletAddress}', [UserModelController::class, 'search']);
